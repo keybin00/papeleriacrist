@@ -10,13 +10,13 @@
 	    <form class="col s12" action="/site/verify" method="post">
 	      <div class="row">
 	        <div class="input-field col s3 offset-s4">
-	          <input id="user" type="text" class="validate" name="username">
+	          <input id="user" type="text" class="validate" name="username" required>
 	          <label for="user">Usuario</label>
 	        </div>
 	      </div>
 	      <div class="row">
 	        <div class="input-field col s3 offset-s4">
-	          <input id="password" type="password" class="validate" name="password">
+	          <input id="password" type="password" class="validate" name="password" required>
 	          <label for="password">Contraseña</label>
 	        </div>
 	      </div>

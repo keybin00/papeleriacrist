@@ -31,3 +31,6 @@ Route::get('/','SiteController@login');
 Route::get('/site/index','SiteController@index');
 Route::post('/site/verify','SiteController@verify');
 Route::get('/users/new','UsersController@new');
+Route::post('/users/create','UsersController@create');
+Route::get('/users/index','UsersController@index');
+
