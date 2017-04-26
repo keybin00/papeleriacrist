@@ -27,10 +27,18 @@
 
 Route::get('/about','PagesController@about');*/
 
-Route::get('/','SiteController@login');
+/*Route::get('/','SiteController@login');
 Route::get('/site/index','SiteController@index');
 Route::post('/site/verify','SiteController@verify');
 Route::get('/users/new','UsersController@new');
 Route::post('/users/create','UsersController@create');
 Route::get('/users/index','UsersController@index');
 
+*/
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
+Route::get('/', 'HomeController@index');
+Route::get('/users','UsersController@index');
+Route::get('/users/new','UsersController@new');
+Route::post('/users/create','UsersController@create')->name('create');

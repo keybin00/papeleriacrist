@@ -4,20 +4,47 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class UsersController extends Controller
 {
+   use RegistersUsers;
+/*	flash('Message', 'info')
+	flash('Message', 'success')
+	flash('Message', 'danger')
+	flash('Message', 'warning')
+	flash()->overlay('Modal Message', 'Modal Title')
+	flash('Message')->important()*/
+
+	public function __construct()
+	{
+	    $this->middleware('auth');
+	}
+
+
 	public function new(){
 		return view("users.new");
 	}
 
+	public function index(){
+		return view("users.index");	
+	}
+
+	protected function validator(array $data)
+	{
+	    return Validator::make($data, [
+	        'name' => 'required|max:255',
+	        'lastname' => 'required|max:255',
+	        'username' => 'required|max:255|unique:users',
+	        'email' => 'required|email|max:255',
+	    ]);
+	}
+
 	public function create(Request $request){
-		// echo "<pre>";
-		// echo var_dump($_POST);
-		// echo "</pre>";
-		$validLength = 8;//valid number of params
-		$message = false;
-		//all params
+		$this->validate($request, [
+        	'username' => 'required|unique:users'
+        ]);
 		$name 			= isset($_POST['name'])?$_POST['name']:false;
 		$lastname 		= isset($_POST['lastname'])?$_POST['lastname']:false;
 		$username 		= isset($_POST['username'])?$_POST['username']:false;
@@ -26,41 +53,22 @@ class UsersController extends Controller
 		$phone 			= isset($_POST['phone'])?$_POST['phone']:false;
 		$role 			= isset($_POST['role'])?$_POST['role']:false;
 		if ($name && $lastname && $username && $password && $phone && $role && $email) {
-			if(count($_POST) === 8){
-				$user = new User;
-				$user->name 	= $name;
-				$user->lastname = $lastname;
-				$user->username = $username;
-				$user->email    = $email;
-				$user->password = $password;
-				$user->phone 	= $phone;
-				$user->role 	= $role;
-				$userFound = User::where('username',$username) -> first();
-				$userMail = User::where('email',$email) -> first();
-				if($userFound || $userMail){
-					$message = "Error, ya existe un usuario con el username ".$username." o con el email ".$email;
-					// $this->index($message);	
-				}else{
-					if ($user->save()) {
-						$message = "Exito, Usuario creado correctamente.";
-						// $this->index($message);	
-					}else{
-						$message = "Error, se ha generado un error al tratar de crear un registro";
-						// $this->index($message);	
-					}	
-				}
+			$user = new User;
+			$user->name 	= $name;
+			$user->lastname = $lastname;
+			$user->username = $username;
+			$user->email    = $email;
+			$user->password = bcrypt($password);
+			$user->phone 	= $phone;
+			$user->role 	= $role;
+			if ($user->save()) {
+				flash()->overlay('Usuario creado correctamente.', '¡Exito!');
 			}else{
-				$message = "Error, se han detectado parámetros adicionales a los requeridos.";
-				// $this->index($message);
+				flash('No se pudo guardar el nuevo registro.', 'danger');
 			}
 		}else{
-			$message = "Error, falta algún parámetro";
-			// $this->index($message);
+			flash('Hacen falta parámetros requeridos para crear al nuevo Usuario.', 'danger');
 		}
-		return view("users.index",["msg"=>$message]);
-	}
-
-	public function index($msg = false){
-		return view("users.index",["msg"=>$msg]);
+		return redirect("/users");
 	}
 }
