@@ -9,7 +9,19 @@
     <ul class="sidebar-menu">
         <li><a href="/users"><i class="fa fa-users"></i> <span>Usuarios</span></a></li>
         <li><a href=""><i class="fa fa-dollar"></i> <span>Ventas</span></a></li>
-        <li><a href="/devices"><i class="fa fa-laptop"></i> <span>Equipos</span></a></li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-desktop"></i> <span>Dispositivos</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-down pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu" style="display: none;">
+            <li><a href="/devices"><i class="fa fa-folder"></i> <span>Activos</span></a></li>
+            <li><a href="/devices/list"><i class="fa fa-folder"></i> <span>Dispositivos</span></a></li>
+          </ul>
+        </li>
+
         <li class="treeview">
           <a href="#">
             <i class="fa fa-database"></i> <span>Almacen</span>

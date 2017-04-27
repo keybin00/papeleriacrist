@@ -53,3 +53,9 @@ Route::get('users/delete/{id}', ['as' => 'users.delete','uses' => 'UsersControll
 
 /*Devices*/
 Route::get('/devices','DevicesController@index');
+Route::post('/devices/create','DevicesController@create');
+Route::get('/devices/new','DevicesController@_new');
+Route::get('/devices/getdevices','DevicesController@getdevices');
+Route::get('/devices/list','DevicesController@devices');
+
+
