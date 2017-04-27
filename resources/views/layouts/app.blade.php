@@ -29,7 +29,7 @@
         ]) !!};
     </script>
 </head>
-<body class="hold-transition skin-blue fixed sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini">
     <div id="app">
         @if (Auth::guest())
             
@@ -49,6 +49,7 @@
     </div>
 
     <!-- Scripts -->
+    <script src="{{ asset('js/Sortable.min.js') }}"></script>
     <script src="{{ asset('js/jQuery-3.2.1.min.js') }}"></script>
     <script src="{{ asset('js/dt.js') }}"></script>
     <script src="{{ asset('js/dtb.js') }}"></script>
