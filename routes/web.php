@@ -43,9 +43,13 @@ Route::get('/', 'HomeController@index');
 
 /*Users*/
 Route::get('/users','UsersController@index');
-Route::get('/users/new','UsersController@new');
+Route::get('/users/new','UsersController@new1');
 Route::post('/users/create','UsersController@create')->name('create');
 Route::get('/users/getusers','UsersController@getusers');
 Route::get('users/edit/{id}', ['as' => 'users.edit','uses' => 'UsersController@edit']);
 Route::post('users/update/{id}', ['as' => 'users.update','uses' => 'UsersController@update']);
 Route::get('users/delete/{id}', ['as' => 'users.delete','uses' => 'UsersController@delete']);
+
+
+/*Devices*/
+Route::get('/devices','DevicesController@index');

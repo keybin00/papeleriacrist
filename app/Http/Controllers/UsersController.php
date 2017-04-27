@@ -23,7 +23,7 @@ class UsersController extends Controller
 	}
 
 
-	public function new(){
+	public function new1(){
 		return view("users.new");
 	}
 
@@ -90,8 +90,8 @@ class UsersController extends Controller
 		    $aux[] 		= $user->phone;
 		    $aux[] 		= $user->username;
 		    $aux[] 		= $user->role==='admin'?'Administrador':'Usuario';
-		    $actions[] 	= "<a class='btn btn-xs btn-warning btn-table' href='/users/edit/".$user->id."'><i class='glyphicon glyphicon-pencil'></i></a>";
-		    $actions[] 	= "<a class='btn btn-xs btn-danger btn-table' href='/users/delete/".$user->id."'>x</a>";
+		    $actions[] 	= "<a class='btn btn-sm btn-success btn-table' href='/users/edit/".$user->id."'><i class='fa fa-pencil-square-o'></i></a>";
+		    $actions[] 	= "<a class='btn btn-sm btn-primary btn-table' href='/users/delete/".$user->id."'><i class='fa fa-trash'></i></a>";
 		    $aux[] 		= join('',$actions); 
 		    $answer['data'][] = $aux;
 		}
