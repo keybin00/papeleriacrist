@@ -1,6 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+/* Prevent the text contents of draggable elements from being selectable. */
+
+.dragme{
+  cursor: move;
+  border: none;
+  background-color: transparent!important;    
+}
+
+
+li#devicesList{display: inline-block;}
+.ghost {
+  opacity: 0.4;
+}
+.chosen {
+  
+  background-color: #00C0EF;
+}
+</style>
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -13,9 +32,9 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <div class="row">
+        <div class="row" id="multi-drag">
           @foreach ($devices as $device)
-            <div class="col-md-3 col-lg-3 col-xs-6">
+            <div class="col-md-3 col-lg-3 col-xs-6 list-group-item dragme">
             @if ($device->rented)
                 <div class="small-box bg-green">
             @else

@@ -3,6 +3,67 @@
 window.onload = function(){
 	applyAjaxTables();
 	applyLoginAnimation();
+
+	// // Simple list
+	// var devices = document.getElementById('devicesList');
+	// Sortable.create(devices, {
+
+	// });
+
+	// Or
+	var container = document.getElementById("multi-drag");
+	var sort = Sortable.create(container, {
+	  animation: 150, // ms, animation speed moving items when sorting, `0` — without animation
+	  ghostClass: "ghost",
+	  chosenClass: "chosen",
+	  // handle: ".tile__title", // Restricts sort start click/touch to the specified element
+	  // draggable: ".tile", // Specifies which items inside the element should be sortable
+	  // Element is chosen
+	  	onChoose: function (/**Event*/evt) {
+	  		evt.oldIndex;  // element index within parent
+	  		console.log("chose");
+	  	},
+
+	  	// Element dragging started
+	  	onStart: function (/**Event*/evt) {
+	  		evt.oldIndex;  // element index within parent
+	  		console.log("started");
+	  		var cloneEl = evt.clone;
+	  		// cloneEl.setAttribute("style", "background-color:transparent");
+	  	},
+	  	onUpdate: function (evt/**Event*/){
+	     var item = evt.item; // the current dragged HTMLElement
+	  	},
+	  	// Called when creating a clone of element
+	  	onClone: function (/**Event*/evt) {
+	  		console.log("cloned");
+	  		var origEl = evt.item;
+	  		var cloneEl = evt.clone;
+	  		
+	  		
+	  	}
+	});
+
+
+	// var sort = Sortable.create(container, {
+	//   	animation: 150, // ms, animation speed moving items when sorting, `0` — without animation
+	//  	handle: ".tile__title", // Restricts sort start click/touch to the specified element
+	//   	draggable: ".tile", // Specifies which items inside the element should be sortable
+	//   	// Element is chosen
+	// 	onChoose: function (/**Event*/evt) {
+	// 		evt.oldIndex;  // element index within parent
+	// 		console.log("selected");
+	// 	},
+
+	// 	// Element dragging started
+	// 	onStart: function (/**Event*/evt) {
+	// 		evt.oldIndex;  // element index within parent
+	// 	},
+
+	//   onUpdate: function (evt/**Event*/){
+	//      var item = evt.item; // the current dragged HTMLElement
+	//   }
+	// });
 }
 
 function applyLoginAnimation(){
