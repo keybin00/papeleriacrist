@@ -4,7 +4,7 @@
   <section class="sidebar">
     <!-- Sidebar user panel -->
     <div class="user-panel">
-      
+
     </div>
     <ul class="sidebar-menu">
         <li><a href="/users"><i class="fa fa-users"></i> <span>Usuarios</span></a></li>
@@ -22,19 +22,20 @@
           </ul>
         </li>
 
-        <li class="treeview">
+        <!--   <li class="treeview">
           <a href="#">
             <i class="fa fa-database"></i> <span>Almacen</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-down pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu" style="display: none;">
-            <li><a href=""><i class="fa fa-folder"></i> <span>Provedores</span></a></li>
+       <ul class="treeview-menu" style="display: none;">
+              <li><a href=""><i class="fa fa-folder"></i> <span>Provedores</span></a></li>
             <li><a href=""><i class="fa fa-folder"></i> <span>Categorias</span></a></li>
-            <li><a href=""><i class="fa fa-folder"></i> <span>Productos</span></a></li>
+            <li><a href="/storage/"><i class="fa fa-folder"></i> <span>Productos</span></a></li>
           </ul>
-        </li>
+        </li>-->
+        <li><a href="/storage/"><i class="fa fa-folder"></i> <span>Productos</span></a></li>
     </ul>
   </section>
   <!-- /.sidebar -->

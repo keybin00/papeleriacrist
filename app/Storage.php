@@ -2,10 +2,10 @@
 
 namespace App;
 
-//use Illuminate\Notifications\Notifiable;
-//use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Device //extends Authenticatable
+class Storage extends Authenticatable
 {
     use Notifiable;
 
@@ -15,7 +15,7 @@ class Device //extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'category', 'is_complete','status','rented'
+        'key_s', 'description', 'n','n_limit','price'
     ];
 
     /**
@@ -26,5 +26,4 @@ class Device //extends Authenticatable
     protected $hidden = [
 
     ];
-
 }

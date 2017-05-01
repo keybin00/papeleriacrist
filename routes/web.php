@@ -58,4 +58,11 @@ Route::get('/devices/new','DevicesController@_new');
 Route::get('/devices/getdevices','DevicesController@getdevices');
 Route::get('/devices/list','DevicesController@devices');
 
-
+/*Storage*/
+Route::get('/storage','StorageController@index');
+Route::get('/storage/new','StorageController@new1');
+Route::post('/storage/create','StorageController@create')->name('create');
+Route::get('/storage/get','StorageController@getstorage');
+Route::get('storage/edit/{id}', ['as' => 'storage.edit','uses' => 'StorageController@edit']);
+Route::post('storage/update/{id}', ['as' => 'storage.update','uses' => 'StorageController@update']);
+Route::get('storage/delete/{id}', ['as' => 'storage.delete','uses' => 'StorageController@delete']);
