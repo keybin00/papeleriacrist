@@ -66,3 +66,7 @@ Route::get('/storage/get','StorageController@getstorage');
 Route::get('storage/edit/{id}', ['as' => 'storage.edit','uses' => 'StorageController@edit']);
 Route::post('storage/update/{id}', ['as' => 'storage.update','uses' => 'StorageController@update']);
 Route::get('storage/delete/{id}', ['as' => 'storage.delete','uses' => 'StorageController@delete']);
+
+/*Sells*/
+Route::get('/sells/seller','SellsController@seller');
+Route::post('/sells/seller/searcher','SellsController@searcher');

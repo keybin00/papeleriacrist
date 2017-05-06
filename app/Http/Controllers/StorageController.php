@@ -48,6 +48,8 @@ class StorageController extends Controller
 		$n_limit 			= isset($_POST['n_limit'])?$_POST['n_limit']:false;
 		$price 		= isset($_POST['price'])?$_POST['price']:false;
 
+		
+
     if ($key_s && $description && $n && $n_limit && $price) {
 			$s = new Storage;
 			$s->key_s 	= $key_s;
