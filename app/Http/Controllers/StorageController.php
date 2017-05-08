@@ -56,7 +56,7 @@ class StorageController extends Controller
 			$s->description = $description;
 			$s->n = $n;
 			$s->n_limit    = $n_limit;
-      $s->price    = $price;
+     		$s->price    = $price;
 
       if ($s->save()) {
 				flash()->overlay('producto creado correctamente.', '¡Exito!');

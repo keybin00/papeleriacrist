@@ -65,7 +65,7 @@
                             <div class="col-md-2">
                             <label for="total" class="control-label">Total:</label>
                             <input id="total" name="total" type="text" class="col-md-12 form-control" value="0" readonly="" autofocus>
-                            <button type="submit" class="btn btn-primary btn-lg">
+                            <button type="submit" class="btn btn-primary btn-lg" onclick="registerSell()">
                               <i class="fa fa-plus-circle"></i> Realizar venta
                             </button>
                           </div>

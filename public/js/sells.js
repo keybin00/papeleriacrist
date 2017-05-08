@@ -77,3 +77,37 @@ function getRow(data){
        <i class="fa fa-trash"></i></a></th></tr>';
    return row;
 }
+
+
+$("#total").val(0);
+
+function registerSell() {
+  if(products.length>0){
+    $.post( window.location.pathname+"/newsell", { list: products,total: total, _token:token })
+    .done(function( data ) {
+      //alert( "Data Loaded: " + data );
+     sellJsonHandler(data);
+    })
+    .fail(function(data) {
+      alert( "error" +data.responseText);
+    });
+  }
+}
+
+
+function sellJsonHandler(data){
+  data=JSON.parse(data);
+  if (data.valid != true) {
+    alert("Error: "+data.error);
+  }else{
+    sellFinisher();
+  }
+}
+
+
+function sellFinisher(){
+  l={list: products,total: total, _token:token };
+  l=JSON.stringify(l);
+  var win=window.open(window.location.pathname+"/recipe/?total="+total+"&list="+l,"","width=400,height=700");
+  location.reload();
+}
