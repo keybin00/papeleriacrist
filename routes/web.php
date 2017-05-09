@@ -68,6 +68,17 @@ Route::get('storage/edit/{id}', ['as' => 'storage.edit','uses' => 'StorageContro
 Route::post('storage/update/{id}', ['as' => 'storage.update','uses' => 'StorageController@update']);
 Route::get('storage/delete/{id}', ['as' => 'storage.delete','uses' => 'StorageController@delete']);
 
+
 /*Rents*/
 Route::post('/rents/create/{id}','RentsController@create');
 Route::post('/rents/closerent/{id}','RentsController@closeRent');
+
+/*Sells*/
+Route::get('/sells','SellsController@index');
+Route::get('/sells/seller','SellsController@seller');
+Route::post('/sells/seller/searcher','SellsController@searcher');
+Route::post('/sells/seller/newsell','SellsController@sellRegister');
+Route::get('/sells/seller/recipe','SellsController@getRecipe');
+Route::get('/sells/get','SellsController@gettable');
+
+

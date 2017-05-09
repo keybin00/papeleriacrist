@@ -32,7 +32,7 @@
                                   <label for="key_s" class="col-md-4 control-label">Clave</label>
 
                                   <div class="col-md-6">
-                                      <input id="key_s" type="text" class="form-control" name="key_s" value="<?=$s->key_s?>" required autofocus>
+                                      <input id="key_s" type="text" class="form-control" name="key_s" value="<?=$s->key_s?>" readonly required autofocus>
 
 
                                   </div>

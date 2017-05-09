@@ -32,7 +32,7 @@
 <body class="hold-transition skin-blue sidebar-mini">
     <div id="app">
         @if (Auth::guest())
-            
+
         @else
             @include('layouts.header')
             @include('layouts.sidebar')
@@ -59,6 +59,7 @@
     <script src="{{ asset('js/eModal.min.js') }}"></script>
     <script src="{{ asset('js/jquery.countdown.min.js') }}"></script>
     <script src="{{ asset('js/moment.js') }}"></script>
+    <script src="{{ asset('js/sells.js') }}"></script>
     <script src="{{ asset('js/zdeveloper.js') }}"></script>
 </body>
 </html>
