@@ -90,3 +90,18 @@ body {
 .table>tbody>tr>td{
   font-weight: 100!important;
 }
+
+.control-sidebar-bg, .control-sidebar{
+  
+}
+input[type="text"].custom-number{
+  height: 100px!important;
+  text-align: center!important;
+  font-size: 60px;
+  padding: 0px 0px 0px 0px;
+  width: 100%!important;
+}
+
+button.custom-number{
+  height: 100px!important;
+}

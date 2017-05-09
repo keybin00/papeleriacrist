@@ -36,6 +36,7 @@
         @else
             @include('layouts.header')
             @include('layouts.sidebar')
+
         @endif
 
         @if (session()->has('flash_notification.message'))
@@ -55,6 +56,9 @@
     <script src="{{ asset('js/dtb.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/app.min.js') }}"></script>
+    <script src="{{ asset('js/eModal.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.countdown.min.js') }}"></script>
+    <script src="{{ asset('js/moment.js') }}"></script>
     <script src="{{ asset('js/zdeveloper.js') }}"></script>
 </body>
 </html>

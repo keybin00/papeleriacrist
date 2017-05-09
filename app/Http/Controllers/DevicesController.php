@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Device;
+use App\Rent;
 use Illuminate\Http\Request;
 
 class DevicesController extends Controller
@@ -23,10 +24,20 @@ class DevicesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
+        date_default_timezone_set('America/Cancun');
+        $currentDateTime    = date("Y-m-d H:i:s"); 
         $devices = Device::where('status', 'active')
                        ->orderBy('id', 'asc')
                        ->get();
-        return view('devices.index', ['devices' => $devices]);
+        $rents = [];
+        foreach ($devices as $device) {
+            $rents[$device->id] = Rent::where('status', 'active')
+                                    ->where('equipment',$device->id)
+                                    ->where('is_complete',false)
+                                    ->orderBy('id', 'asc')
+                                    ->first();
+        }
+        return view('devices.index', ['devices' => $devices,'rents'=>$rents,'currTime'=>$currentDateTime]);
     }
     public function devices(){
         return view('devices.devices');
@@ -73,6 +84,42 @@ class DevicesController extends Controller
             flash('Hacen falta parámetros requeridos para crear el nuevo Dispositivo.', 'danger');
         }
         return redirect("/devices/list");
+    }
+    public function newRent($id){
+        if ($id) {
+            $device = Device::find($id);
+            if ($device) {
+                return view('devices.newrent',['device'=>$device]);
+            }else{
+                flash('No se encontró el registro que se quiere editar.', 'danger');
+                return redirect("/devices");  
+            }
+        }else{
+            flash('No se encontró el registro que se quiere editar.', 'danger');
+            return redirect("/devices");
+        }
+    }
+    public function rent($id){
+        if ($id) {
+            echo var_dump($_POST);
+            $device = Device::find($id);
+            if ($device) {
+                $device->rented = true;
+                if ($device->save()) {
+                    flash('El dispositivo se ha rentado correctamente.', 'success');
+                    return redirect("/devices");  
+                }else{
+                    flash('No se encontró el dispositivo que se quiere rentar.', 'danger');
+                    return redirect("/devices");  
+                }
+            }else{
+                flash('No se encontró el dispositivo que se quiere rentar.', 'danger');
+                return redirect("/devices");  
+            }
+        }else{
+            flash('No se encontró el dispositivo que se quiere rentar.', 'danger');
+            return redirect("/devices");
+        }   
     }
 
 }

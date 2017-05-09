@@ -16,7 +16,6 @@ li#devicesList{display: inline-block;}
   opacity: 0.4;
 }
 .chosen {
-  
   background-color: #00C0EF;
 }
 </style>
@@ -34,24 +33,7 @@ li#devicesList{display: inline-block;}
       <div class="container-fluid">
         <div class="row" id="multi-drag">
           @foreach ($devices as $device)
-            <div class="col-md-3 col-lg-3 col-xs-6 list-group-item dragme">
-            @if ($device->rented)
-                <div class="small-box bg-green">
-            @else
-                <div class="small-box bg-red">
-            @endif
-                <div class="inner">
-                  <h3>0.00</h3>
-                  <p>{{ $device->name }}</p>
-                </div>
-                <div class="icon">
-                  <i class="fa fa-desktop"></i>
-                </div>
-                <a href="#" class="small-box-footer">
-                  <i class="fa fa-power-off"></i>
-                </a>
-              </div>
-            </div>
+            @include('devices.device')
           @endforeach
           <!-- ./col -->
           </div>

@@ -57,6 +57,7 @@ Route::post('/devices/create','DevicesController@create');
 Route::get('/devices/new','DevicesController@_new');
 Route::get('/devices/getdevices','DevicesController@getdevices');
 Route::get('/devices/list','DevicesController@devices');
+Route::get('/devices/newrent/{id}','DevicesController@newrent');
 
 /*Storage*/
 Route::get('/storage','StorageController@index');
@@ -66,3 +67,7 @@ Route::get('/storage/get','StorageController@getstorage');
 Route::get('storage/edit/{id}', ['as' => 'storage.edit','uses' => 'StorageController@edit']);
 Route::post('storage/update/{id}', ['as' => 'storage.update','uses' => 'StorageController@update']);
 Route::get('storage/delete/{id}', ['as' => 'storage.delete','uses' => 'StorageController@delete']);
+
+/*Rents*/
+Route::post('/rents/create/{id}','RentsController@create');
+Route::post('/rents/closerent/{id}','RentsController@closeRent');

@@ -3,69 +3,202 @@
 window.onload = function(){
 	applyAjaxTables();
 	applyLoginAnimation();
+	applyDevicesDragable();
+	startRentListener();
+	activateCountdown();
+	
 
-	// // Simple list
-	// var devices = document.getElementById('devicesList');
-	// Sortable.create(devices, {
-
-	// });
-
-	// Or
-	var container = document.getElementById("multi-drag");
-	var sort = Sortable.create(container, {
-	  animation: 150, // ms, animation speed moving items when sorting, `0` — without animation
-	  ghostClass: "ghost",
-	  chosenClass: "chosen",
-	  // handle: ".tile__title", // Restricts sort start click/touch to the specified element
-	  // draggable: ".tile", // Specifies which items inside the element should be sortable
-	  // Element is chosen
-	  	onChoose: function (/**Event*/evt) {
-	  		evt.oldIndex;  // element index within parent
-	  		console.log("chose");
-	  	},
-
-	  	// Element dragging started
-	  	onStart: function (/**Event*/evt) {
-	  		evt.oldIndex;  // element index within parent
-	  		console.log("started");
-	  		var cloneEl = evt.clone;
-	  		// cloneEl.setAttribute("style", "background-color:transparent");
-	  	},
-	  	onUpdate: function (evt/**Event*/){
-	     var item = evt.item; // the current dragged HTMLElement
-	  	},
-	  	// Called when creating a clone of element
-	  	onClone: function (/**Event*/evt) {
-	  		console.log("cloned");
-	  		var origEl = evt.item;
-	  		var cloneEl = evt.clone;
-	  		
-	  		
-	  	}
+	$(document.body).on('click','button.add',function(e){
+		e.preventDefault();
+		var container = $(this).closest('div.custom-number-container');
+		var input = container.find('input.custom-number');
+		var defValue =  input.val();
+		var currValue = input.val();
+		var minVal = input.attr("min");
+		if (isNumeric(currValue) && isNumeric(minVal)) {
+			var currNumber = changeToInt(currValue);
+			currNumber += 1;
+			minVal = changeToInt(minVal);
+			if (isValidValue(currNumber, minVal)) {
+				currNumber = currNumber.toString();
+				input.val(currNumber);
+			}else{
+				input.val(minVal.toString());
+			}
+		}else{
+			return;
+		}
 	});
-
-
-	// var sort = Sortable.create(container, {
-	//   	animation: 150, // ms, animation speed moving items when sorting, `0` — without animation
-	//  	handle: ".tile__title", // Restricts sort start click/touch to the specified element
-	//   	draggable: ".tile", // Specifies which items inside the element should be sortable
-	//   	// Element is chosen
-	// 	onChoose: function (/**Event*/evt) {
-	// 		evt.oldIndex;  // element index within parent
-	// 		console.log("selected");
-	// 	},
-
-	// 	// Element dragging started
-	// 	onStart: function (/**Event*/evt) {
-	// 		evt.oldIndex;  // element index within parent
-	// 	},
-
-	//   onUpdate: function (evt/**Event*/){
-	//      var item = evt.item; // the current dragged HTMLElement
-	//   }
-	// });
+	$(document.body).on('click','button.substract',function(e){
+		e.preventDefault();
+		var container = $(this).closest('div.custom-number-container');
+		var input = container.find('input.custom-number');
+		var defValue =  input.val();
+		var currValue = input.val();
+		var minVal = input.attr("min");
+		if (isNumeric(currValue) && isNumeric(minVal)) {
+			var currNumber = changeToInt(currValue);
+			currNumber -= 1;
+			minVal = changeToInt(minVal);
+			if (isValidValue(currNumber, minVal)) {
+				currNumber = currNumber.toString();
+				input.val(currNumber.toString());
+			}else{
+				input.val(minVal.toString());
+			}
+		}else{
+			return;
+		}
+	});
+	$(document.body).on('change','input.custom-number',function(e){
+		e.preventDefault();
+		input = $(this);
+		var minVal = input.attr('min');
+		if (!isNumeric(input.val())) {
+			input.val(minVal);
+		}
+	});
 }
 
+function isValidValue(value, min){
+	var valid = false;
+	if (value > min) {
+		valid = true;
+	}
+	return valid;
+};
+function changeToInt(value){
+	return parseInt(value);
+};
+function isNumeric(value){
+	var isNumber =  /^\d+$/.test(value);
+	var numbers = value;
+	if(!$.isNumeric(numbers)){
+		return false;
+	}
+	else{
+		if (isNumber) {
+			return true;
+			
+		}else{
+			return false;
+		}
+	}
+};
+function activateCountdown(){
+	var clocks = $('h3.clock-container');
+	$.each(clocks,function(){
+		if ($(this).data('value')) {
+			$(this).countdown($(this).data('value'), function(event) {
+			  $(this).html(event.strftime('%H:%M:%S'));
+			}).on('finish.countdown',function(event){
+				var rent = $(this).data('rent');
+				if (typeof rent !== 'undefined') {
+					$.post('/rents/closerent',{id:rent},function(r){
+						console.log(r);
+						if (r.success) {
+							var container = $(this).closest('div.clock-style');
+							container.removeClass('bg-green');
+							container.addClass('bg-red');
+						}
+					});
+				}
+
+			});
+		}
+	});
+}
+function startRentListener(){
+	var buttons = $("button.btn-device-action");
+	if (typeof buttons !== 'undefined' && buttons.length > 0) {
+		console.log(buttons);
+		$.each(buttons,function(){
+			var btn = $(this);
+			btn.on('click',function(e){
+				e.preventDefault();
+				var modal = $('#generalModal');
+				if (typeof modal !== 'undefined') {
+					var options = {
+					        url: btn.data('url'),
+					        title:btn.data('title'),
+					        size: eModal.size.md,
+					        useBin:false,
+					        buttons: [
+					            {text: 'Cancelar', style: 'info',   close: true, click:destroyEmodal},
+					            {
+					            	text: 'Rentar',
+				            	 	style: 'danger',
+				            	  	close: true,
+				            	   	click:function(e){
+						           		console.log("hola");
+						           		var form = $("form#newrent");
+						           		var hours = form.find('input[name=hours]');
+						           		var minutes = form.find('input[name=minutes]');
+						           		if (typeof hours !== 'undefined' && typeof minutes !== 'undefined') {
+							           		console.log(form);
+							           		form.submit();
+						           		}else{
+						           			return;
+						           		}
+					            	}
+					            }
+					        ],
+					    };
+					params = {
+						backdrop:'static'
+					};
+					eModal.setModalOptions(params) 
+					eModal.ajax(options);
+				}
+			});
+		});
+	}
+}
+function eventB(){
+	console.log("click");
+}
+function destroyEmodal(){
+	$("#myEmodal").on('hidden.bs.modal', function () {
+ 		$(this).data('bs.modal', null);
+	});
+}
+function applyDevicesDragable(){
+	var container = document.getElementById("multi-drag");
+	if (typeof container !== 'undefined') {
+		var sort = Sortable.create(container, {
+		  animation: 150, // ms, animation speed moving items when sorting, `0` — without animation
+		  ghostClass: "ghost",
+		  chosenClass: "chosen",
+		  handle: ".inner", // Restricts sort start click/touch to the specified element
+		  // draggable: ".tile", // Specifies which items inside the element should be sortable
+		  // Element is chosen
+		  	onChoose: function (/**Event*/evt) {
+		  		evt.oldIndex;  // element index within parent
+		  		console.log("chose");
+		  	},
+
+		  	// Element dragging started
+		  	onStart: function (/**Event*/evt) {
+		  		evt.oldIndex;  // element index within parent
+		  		console.log("started");
+		  		var cloneEl = evt.clone;
+		  		// cloneEl.setAttribute("style", "background-color:transparent");
+		  	},
+		  	onUpdate: function (evt/**Event*/){
+		     var item = evt.item; // the current dragged HTMLElement
+		  	},
+		  	// Called when creating a clone of element
+		  	onClone: function (/**Event*/evt) {
+		  		console.log("cloned");
+		  		var origEl = evt.item;
+		  		var cloneEl = evt.clone;
+		  		
+		  		
+		  	}
+		});
+	}
+	
+}
 function applyLoginAnimation(){
 	$('#particles').particleground({
 	    minSpeedX: 0.1,

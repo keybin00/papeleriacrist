@@ -1,15 +1,20 @@
 <div class="col-md-3 col-lg-3 col-xs-6 list-group-item dragme">
-  <!-- small box -->
-  <div class="small-box bg-aqua">
+  @if ($device->rented)
+    <div class="small-box bg-green clock-style">
+  @else
+    <div class="small-box bg-aqua clock-style">
+  @endif
     <div class="inner">
-      <h3>150</h3>
-      <p>New Orders</p>
+      <?php if( isset($rents[$device->id]) ){ ?>
+          <h3 data-rent="<?=$rents[$device->id]->id?>" data-value="<?= $rents[$device->id]->stimated ?>" class="clock-container"></h3>
+      <?php } else{?>
+        <h3 data-value="<?= $currTime ?>" class="clock-container"></h3>
+      <?php } ?>
+      <p>{{ $device->name }}</p>
     </div>
     <div class="icon">
       <i class="fa fa-desktop"></i>
     </div>
-    <a href="#" class="small-box-footer">
-      More info <i class="fa fa-arrow-circle-right"></i>
-    </a>
+    <button data-url="/devices/newrent/{{$device->id}}" data-title="Nueva Renta {{$device->name}}" class="btn btn-block btn-primary btn-device-action"><i class="fa fa-power-off"></i></button>
   </div>
 </div>
