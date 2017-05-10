@@ -21,6 +21,7 @@
     <link rel='stylesheet' href="{{ asset('css/font-awesome.min.css') }}" />
     <link rel='stylesheet' href="{{ asset('css/ionicons.min.css') }}" />
     <link rel='stylesheet' href="{{ asset('css/admin/skins/_all-skin.min.css') }}" />
+    <link rel='stylesheet' href="{{ asset('css/admin/toast.css') }}" />
 
     <!-- Scripts -->
     <script>
@@ -36,15 +37,9 @@
         @else
             @include('layouts.header')
             @include('layouts.sidebar')
+
         @endif
 
-        @if (session()->has('flash_notification.message'))
-            <div class="alert alert-{{ session('flash_notification.level') }}">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-
-                {!! session('flash_notification.message') !!}
-            </div>
-        @endif
         @yield('content')
     </div>
 
@@ -55,6 +50,10 @@
     <script src="{{ asset('js/dtb.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/app.min.js') }}"></script>
+    <script src="{{ asset('js/eModal.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.countdown.min.js') }}"></script>
+    <script src="{{ asset('js/moment.js') }}"></script>
+    <script src="{{ asset('js/plugins/toast/jquery.toast.js') }}"></script>
     <script src="{{ asset('js/sells.js') }}"></script>
     <script src="{{ asset('js/zdeveloper.js') }}"></script>
 </body>

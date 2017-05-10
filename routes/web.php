@@ -57,6 +57,9 @@ Route::post('/devices/create','DevicesController@create');
 Route::get('/devices/new','DevicesController@_new');
 Route::get('/devices/getdevices','DevicesController@getdevices');
 Route::get('/devices/list','DevicesController@devices');
+Route::get('/devices/newrent/{id}','DevicesController@newrent');
+Route::get('/devices/turnon/{id}','DevicesController@turnon');
+Route::get('/devices/turnoff/{id}','DevicesController@turnoff');
 
 /*Storage*/
 Route::get('/storage','StorageController@index');
@@ -67,11 +70,25 @@ Route::get('storage/edit/{id}', ['as' => 'storage.edit','uses' => 'StorageContro
 Route::post('storage/update/{id}', ['as' => 'storage.update','uses' => 'StorageController@update']);
 Route::get('storage/delete/{id}', ['as' => 'storage.delete','uses' => 'StorageController@delete']);
 
+
+/*Rents*/
+Route::post('/rents/create/{id}','RentsController@create');
+Route::post('/rents/closerent','RentsController@closerent');
+Route::post('/rents/finalize','RentsController@finalize');
+Route::get('/rents/test','RentsController@test');
+Route::get('/rents','RentsController@index');
+Route::get('/rents/getrents','RentsController@getrents');
+Route::get('/rents/gethoursbetweendates','RentsController@gethoursbetweendates');
+Route::get('/rents/ticket/{id}','RentsController@ticket');
+Route::get('/rents/downloadticket/{id}','RentsController@downloadticket');
+
+
 /*Sells*/
-Route::get('/sells/','SellsController@index');
+Route::get('/sells','SellsController@index');
 Route::get('/sells/seller','SellsController@seller');
 Route::post('/sells/seller/searcher','SellsController@searcher');
 Route::post('/sells/seller/newsell','SellsController@sellRegister');
 Route::get('/sells/seller/recipe','SellsController@getRecipe');
 Route::get('/sells/get','SellsController@gettable');
+
 

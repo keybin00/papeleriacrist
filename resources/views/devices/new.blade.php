@@ -31,6 +31,16 @@
                      </div>
 
                      <div class="form-group">
+                         <label for="name" class="col-md-4 control-label">Fracción Mínima</label>
+                         <input  type="text" class="form-control float" name="min" required autofocus placeholder="Tiempo mínimo de renta en minutos...">
+                     </div>
+
+                     <div class="form-group">
+                         <label for="name" class="col-md-4 control-label">Tarifa</label>
+                         <input  type="text" class="form-control float" name="rate" required autofocus>
+                     </div>
+
+                     <div class="form-group">
                          <label for="category" class="col-md-4 control-label">Categoría</label>
                          <input id="category" type="text" class="form-control" name="category" required autofocus>
                      </div>

@@ -12,7 +12,6 @@
     </section>
     <!-- Main content -->
     <section class="content">
-      <!-- <h1>Hola que hace por aquí <%=req.session.user.name%> ?</h1> -->
       <div class="container-fluid">
         <div class="row">
             <div class="container">
@@ -23,9 +22,7 @@
                         <h3 class="box-title">Nueva Venta</h3>
                       </div>
                       <div class="box-body">
-
                         <div class="col-md-12 col-md-offset-1">
-
                                 <div class="form-group">
                                     <div class="col-md-2">
                                         <input id="clave_producto" type="text" placeholder="Clave de Producto" class="form-control" required autofocus>

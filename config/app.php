@@ -180,6 +180,9 @@ return [
         /*Flash Messages*/
          Laracasts\Flash\FlashServiceProvider::class,
 
+         /*PDF*/
+        Barryvdh\DomPDF\ServiceProvider::class,
+
     ],
 
     /*

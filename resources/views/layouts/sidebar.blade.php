@@ -21,7 +21,7 @@
             <li><a href="/sells/"><i class="fa fa-folder"></i> <span>Análisis ventas</span></a></li>
           </ul>
         </li>
-
+        <li><a href="/rents"><i class="fa fa-tachometer"></i> <span>Rentas</span></a></li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-desktop"></i> <span>Dispositivos</span>
