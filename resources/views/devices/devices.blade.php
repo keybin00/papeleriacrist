@@ -15,6 +15,12 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
+          @if (session()->has('flash_notification.message'))
+              <div class="alert alert-{{ session('flash_notification.level') }}">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  {!! session('flash_notification.message') !!}
+              </div>
+          @endif
             <div class="panel panel-default">
               <div class="panel-body" style="min-height: 600px;">
                 <table data-url="/devices/getdevices" class="display ajaxTable table table-condensed table-hover table-bordered table-stripped" cellspacing="0" cellpadding="0" width="100%">

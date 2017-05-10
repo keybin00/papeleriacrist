@@ -26,7 +26,7 @@
                       <i class="fa fa-minus"></i>
                   </button>
                 </div>
-                <input type="text" class="form-control custom-number" aria-label="..." min="0" value="30" name="minutes">
+                <input type="text" class="form-control custom-number" aria-label="..." min="0" value="{{$device->minimum}}" name="minutes">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-info custom-number add">
                         <i class="fa fa-plus"></i>
@@ -34,15 +34,5 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="form-group col-xs-6 col-md-6 col-sm-6 col-lg-6">
-            <label class="col-xs-12" for="">Horas</label>
-            <input class="form-control input-lg custom-number" type="number" min="0" step="1" value="0">
-            <button class="btn btn-xs btn-info">test</button>
-        </div>
-        <div class="form-group col-xs-6 col-md-6 col-sm-6 col-lg-6">
-            <label class="col-xs-12" for="">Minutos</label>
-            <input class="form-control input-lg custom-number" type="number" min="30" step="1" value="30">
-            <button class="btn btn-xs btn-info">test</button>
-        </div> --}}
     </form>
 </div>

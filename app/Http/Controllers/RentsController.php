@@ -44,9 +44,14 @@ class RentsController extends Controller
             $aux[]              = date_format($endedDate, 'Y-m-d H:i:s');
             $aux[]              = date_format($stimatedDate, 'Y-m-d H:i:s');
             $aux[]              = $rent->anticipated ? '<span class="label label-danger">Sí</span>' : '<span class="label label-info">No</span>';
-            $aux[]              = $this->getHoursBetweenDates($rent->started, $rent->ended);
-            $actions[]          = "<a target='_blank' title='Ver Recibo' class='btn btn-sm btn-danger btn-table' href='/rents/ticket/".$rent->id."'><i class='fa fa-file-pdf-o'></i></a>";
-            $actions[]          = "<a title='Descargar Recibo' class='btn btn-sm btn-info btn-table' href='/rents/downloadticket/".$rent->id."'><i class='fa fa-cloud-download'></i></a>";
+            $aux[]              = $rent->is_complete ? $this->getHoursBetweenDates($rent->started, $rent->ended).' Horas '.$this->getMinutesBetweenDates($rent->started,$rent->ended).' minutos' : '<span class="label label-info">Activa</span>';
+            if ($rent->is_complete) {
+                $actions[]          = "<a target='_blank' title='Ver Recibo' class='btn btn-sm btn-danger btn-table' href='/rents/ticket/".$rent->id."'><i class='fa fa-file-pdf-o'></i></a>";
+                $actions[]          = "<a title='Descargar Recibo' class='btn btn-sm btn-info btn-table' href='/rents/downloadticket/".$rent->id."'><i class='fa fa-cloud-download'></i></a>";
+            }else{
+                $actions[]          = "<a disabled='disable' target='_blank' title='Ver Recibo' class='btn btn-sm btn-danger btn-table not-active' href='#'><i class='fa fa-file-pdf-o'></i></a>";
+                $actions[]          = "<a disabled='disabled' title='Descargar Recibo' class='btn btn-sm btn-info btn-table not-active' href='#'><i class='fa fa-cloud-download'></i></a>";
+            }
             /*$actions[]          = "<a class='btn btn-sm btn-primary btn-table' href='/rents/delete/".$rent->id."'><i class='fa fa-trash'></i></a>";*/
             $aux[]              = join('',$actions); 
             $answer['data'][]   = $aux;
@@ -55,10 +60,17 @@ class RentsController extends Controller
     }
 
     public function getHoursBetweenDates($sd,$ed){
-        $datetime1 = new DateTime($sd);
-        $datetime2 = new DateTime($ed);
-        $interval = $datetime1->diff($datetime2);
-        return $interval->format('%h')." Horas ".$interval->format('%i')." Minutos";
+        $date1 = $sd;
+        $date2 = $ed;
+        $diff = strtotime($date2) - strtotime($date1);
+        $diff_in_hrs = round($diff/3600);
+        return $diff_in_hrs;
+    }
+
+    public function getMinutesBetweenDates($sd,$ed){
+        $from_time = strtotime($sd);
+        $to_time = strtotime($ed);
+        return round(abs($to_time - $from_time) / 60);
     }
 
     public function create($id){
@@ -82,10 +94,12 @@ class RentsController extends Controller
                     $now->add(new DateInterval("PT{$hours}H"));
                     $now->add(new DateInterval("PT{$minutes}M"));
                     $new_time = $now->format('Y-m-d H:i:s');
-                    $rent->started      = $currentDateTime;
-                    $rent->ended        = date('Y-m-d 00:00:00');
-                    $rent->stimated     = $new_time;
-                    $rent->equipment    = $id;
+                    $rent->started          = $currentDateTime;
+                    $rent->ended            = date('Y-m-d 00:00:00');
+                    $rent->stimated         = $new_time;
+                    $rent->equipment        = $id;
+                    $rent->device_minimum   = $device->minimum;
+                    $rent->device_rate      = $device->rate;
                     if ($rent->save()) {
                         $device->rented = true;
                         if ($device->save()) {
@@ -183,25 +197,37 @@ class RentsController extends Controller
         }
     }
 
-    public function ticket($id){
+    public function generateTicket($id){
         $rent = Rent::find($id);
         $device = Device::find($rent->equipment);
-        $totaltime = $this->getHoursBetweenDates($rent->started,$rent->ended);
+        $minutes = $this->getMinutesBetweenDates($rent->started,$rent->ended);
+        $hours = $this->getHoursBetweenDates($rent->started,$rent->ended);
+        $totaltime = $hours.' hora(s) '.$minutes.' minuto(s)';
+        $total_minutes = $hours * 60;
+        $total_minutes += $minutes;
+        $fractions = round($total_minutes / $rent->device_minimum);
+        if ($fractions < $rent->device_minimum) {
+            $totalCharge = $rent->device_rate;
+        }else{
+            $totalCharge = $fractions * $rent->device_rate;
+        }
+        return ['rent'=>$rent,'device'=>$device,"timetotal"=>$totaltime,"minutes"=>$minutes,'totalCharge'=>$totalCharge];
+    }
+
+    public function ticket($id){
+        $values = $this->generateTicket($id);
         $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('rents.ticket',['rent'=>$rent,'device'=>$device,"timetotal"=>$totaltime]);
+        $pdf->loadView('rents.ticket',$values);
         return $pdf->stream('Recibo_Renta_'.$id.'.pdf');
     }
 
     public function downloadTicket($id){
+        $values = $this->generateTicket($id);
         $pdf = App::make('dompdf.wrapper');
-        $pdf->loadHTML('<h1>Renta : '.$id.'</h1>');
+        $pdf->loadView('rents.ticket',$values);
         return $pdf->download('Recibo_Renta_'.$id.'.pdf');;
     }
 
-    public function test(){
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadHTML('<h1>Test</h1>');
-        return $pdf->stream();
-    }
+   
 
 }

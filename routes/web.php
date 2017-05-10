@@ -11,30 +11,7 @@
 |
 */
 
-/*Route::get('/', function () {
-    return view('welcome');
-});
 
-// Route::get('about',function(){
-// 	//return "about";
-// 	$people = ["fernando","amilcar"];
-// 	//return view("pages.about",['people' => $people]);
-// 	return view("pages.about",compact('people'));
-// 	//return view('pages.about')->with('people',$people);
-// 	//return view('pages.about')->withPeople($people);
-
-// });
-
-Route::get('/about','PagesController@about');*/
-
-/*Route::get('/','SiteController@login');
-Route::get('/site/index','SiteController@index');
-Route::post('/site/verify','SiteController@verify');
-Route::get('/users/new','UsersController@new');
-Route::post('/users/create','UsersController@create');
-Route::get('/users/index','UsersController@index');
-
-*/
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
@@ -60,6 +37,9 @@ Route::get('/devices/list','DevicesController@devices');
 Route::get('/devices/newrent/{id}','DevicesController@newrent');
 Route::get('/devices/turnon/{id}','DevicesController@turnon');
 Route::get('/devices/turnoff/{id}','DevicesController@turnoff');
+Route::post('/devices/update/{id}','DevicesController@update');
+Route::get('/devices/edit/{id}','DevicesController@edit');
+Route::get('/devices/delete/{id}','DevicesController@delete');
 
 /*Storage*/
 Route::get('/storage','StorageController@index');
@@ -81,6 +61,7 @@ Route::get('/rents/getrents','RentsController@getrents');
 Route::get('/rents/gethoursbetweendates','RentsController@gethoursbetweendates');
 Route::get('/rents/ticket/{id}','RentsController@ticket');
 Route::get('/rents/downloadticket/{id}','RentsController@downloadticket');
+
 
 
 /*Sells*/
