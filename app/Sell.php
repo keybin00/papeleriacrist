@@ -15,7 +15,7 @@ class Sell extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'clave_producto', 'cantidad', 'subtotal'
+        'clave_producto', 'cantidad', 'subtotal','sale_id'
     ];
     /**
      * The attributes that should be hidden for arrays.

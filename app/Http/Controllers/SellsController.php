@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Sell;
 use App\Storage;
+use App\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -55,29 +56,36 @@ class SellsController extends Controller
 
 	}
 
+
   public function sellRegister(){
-    $answer=['valid'=>true,'error'=>""];
-    $list    = isset($_POST['list'])?$_POST['list']:false; //lista de productos a vender
-    $t    = isset($_POST['total'])?$_POST['total']:false; //total
-    if ($list && $t) {
+    $answer     =['valid'=>true,'error'=>""];
+    $products   = isset($_POST['list'])?$_POST['list']:false; //lista de productos a vender
+    $total      = isset($_POST['total'])?$_POST['total']:false; //total
+    
+    if ($products && $total) {
       //datos recibidos
       //var_dump($list);
-      foreach ($list as $p ) {
-        //Registrar venta
-        $v=new Sell;
-        $v->clave_producto=$p["k"];
-        $v->cantidad=$p["n"];
-        $v->subtotal=$p["s"];
-        $v->save();
 
+      $Sale = new Sale;
+      $Sale->total = $total;
+      $Sale->status = 'active';
+      $Sale->save();
+
+      foreach ($products as $product) {
+
+        //Registrar venta
+        $sale_product=new Sell;
+        $sale_product->sale_id        = $Sale->id;
+        $sale_product->clave_producto = $product["k"];
+        $sale_product->cantidad       = $product["n"];
+        $sale_product->subtotal       = $product["s"];
+        $sale_product->save();
 
         //Actualizar inventario
-        $s = Storage::where('key_s', $p["k"])->first();
-        $s->n= $s->n - $p["n"];
+        $s    = Storage::where('key_s', $product["k"])->first();
+        $s->n = $s->n - $product["n"];
         $s->save();
       }
-
-
 
       $answer['valid']=true;
       $answer['error']="";
@@ -109,16 +117,22 @@ class SellsController extends Controller
     $answer = [
       'data'=>[]
     ];
-    $sells = Sell::orderBy('id', 'asc')->get();
-    foreach ($sells as $s) {
+    $sales = Sale::orderBy('id', 'asc')->get();
+    $index = 0;
+    foreach ($sales as $sale) {
+        $index = $index + 1;
         $aux = [];
-        $aux[]    = $s->id;
-        $aux[]    = $s->clave_producto;
-        $aux[]    = $s->cantidad;
-        $aux[]    = "$".$s->subtotal;
+        $actions = [];
+        $aux[]    = $index;
+        $aux[]    = $sale->total;
+        $aux[]    = $sale->status;
+        $actions[]  = "<a class='btn btn-sm btn-success btn-table' href='/sale/generateticket/".$sale->id."'><i class='fa fa-pencil-square-o'></i></a>";
+        $aux[]    = join('',$actions); 
         $answer['data'][] = $aux;
     }
     echo json_encode($answer);
   }
- //final de controller 
+
 }
+
+
