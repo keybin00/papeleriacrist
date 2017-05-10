@@ -153,9 +153,7 @@ window.onload = function(){
 function displayNotifications(){
 	$.get('/storage/productvisor',function(r){
 		if (r.success) {
-			console.log(r);
 			$.each(r.criticProducts,function(index,product){
-				console.log(product);
 				var title 	= 	"Estado Crítico";
 				var msg 	= 	"Solo existen <b>"+product.number+"</b> existencias en inventario del producto: <b>"+product.name+"</b>";
 				var icon 	= 	"warning";
@@ -334,7 +332,6 @@ function destroyEmodal(){
 
 function applyDevicesDragable(){
 	var container = document.getElementById("multi-drag");
-	console.log(container);
 	if (typeof container !== 'undefined' && container !== null) {
 		var sort = Sortable.create(container, {
 		  animation: 150, // ms, animation speed moving items when sorting, `0` — without animation
@@ -347,7 +344,6 @@ function applyDevicesDragable(){
 		  		evt.oldIndex;  // element index within parent
 		  		console.log("chose");
 		  	},
-
 		  	// Element dragging started
 		  	onStart: function (/**Event*/evt) {
 		  		evt.oldIndex;  // element index within parent

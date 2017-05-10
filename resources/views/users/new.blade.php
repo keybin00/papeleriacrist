@@ -25,7 +25,7 @@
                       <div class="box-body">
                         
                         <div class="col-md-8 col-md-offset-2">
-                            <form class="form-horizontal" role="form" method="POST" action="{{ route('create') }}">
+                            <form class="form-horizontal" role="form" method="POST" action="/users/create">
                                 {{ csrf_field() }}
 
                                 <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">

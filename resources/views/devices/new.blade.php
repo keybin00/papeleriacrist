@@ -17,14 +17,13 @@
          
          <div class="box">
            <div class="box-header with-border">
-             <h3 class="box-title">Datos de usuario</h3>
+             <h3 class="box-title">Datos de Nuevo Dispositivo</h3>
            </div>
            <div class="box-body">
              
              <div class="col-md-6 col-md-offset-3">
                  <form role="form" method="POST" action="/devices/create">
                      {{ csrf_field() }}
-
                      <div class="form-group">
                          <label for="name" class="col-md-4 control-label">Nombre</label>
                          <input id="name" type="text" class="form-control" name="name" required autofocus>

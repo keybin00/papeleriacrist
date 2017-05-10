@@ -25,7 +25,7 @@
             <!-- The user image in the navbar-->
             <img src="/images/template/img/user2-160x160.jpg" class="user-image" alt="User Image">
             <!-- hidden-xs hides the username on small devices so only the image appears. -->
-            <span class="hidden-xs">Carlos Enrique</span>
+            <span class="hidden-xs"><?=Auth::user()->name?> <?=Auth::user()->lastname?></span>
           </a>
           <ul class="dropdown-menu">
             <!-- The user image in the menu -->
@@ -36,14 +36,14 @@
             <li class="user-body">
               <div class="row">
                 <div class="col-xs-12 text-center">
-                  <a href="#">Información de usuario</a>
+                  <a href="#"><?=Auth::user()->username?></a>
                 </div>
               </div>
               <!-- /.row -->
             </li>
             <!-- Menu Footer-->
             <li class="user-footer">
-                <a href="{{ route('logout') }}" class="btn btn-default display-block " onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sign out</a>
+                <a href="{{ route('logout') }}" class="btn btn-default display-block " onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar Sesión</a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     {{ csrf_field() }}
                 </form>

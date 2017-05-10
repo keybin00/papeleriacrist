@@ -65,29 +65,31 @@ class SellsController extends Controller
       $sale->total = $total;
       if ($sale->save()) {
         foreach ($products as $product) {
-          $s    = Storage::find($product['id']);
-          if ($s) {
-            $s->n = $s->n - $product["n"];
-            if ($s->save()) {
-              $relationRow = new Salesproducts;
-              $relationRow->sale                =$sale->id;
-              $relationRow->product             =$product['id'];
-              $relationRow->product_price       =$product['p'];
-              if ($relationRow->save()) {
-                $answer['valid']=true;
-                $answer["saleID"]=$sale->id;
-                $answer['error']="";
+          for ($i=0; $i < (int)$product['n']; $i++) { 
+            $s    = Storage::find($product['id']);
+            if ($s) {
+              $s->n -= 1;  
+              if ($s->save()) {
+                $relationRow = new Salesproducts;
+                $relationRow->sale                =$sale->id;
+                $relationRow->product             =$product['id'];
+                $relationRow->product_price       =$product['p'];
+                if ($relationRow->save()) {
+                  $answer['valid']=true;
+                  $answer["saleID"]=$sale->id;
+                  $answer['error']="";
+                }else{
+                  $answer['valid']=false;
+                  $answer['error']="Error al guardar relaciones.";
+                }
               }else{
                 $answer['valid']=false;
-                $answer['error']="Error al guardar relaciones.";
+                $answer['error']="Error al descontar los productos vendidos del inventario.";
               }
             }else{
               $answer['valid']=false;
               $answer['error']="Error al descontar los productos vendidos del inventario.";
-            }
-          }else{
-            $answer['valid']=false;
-            $answer['error']="Error al descontar los productos vendidos del inventario.";
+            }  
           }
         }
       }else{

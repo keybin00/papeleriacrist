@@ -21,7 +21,7 @@ Route::get('/', 'HomeController@index');
 /*Users*/
 Route::get('/users','UsersController@index');
 Route::get('/users/new','UsersController@new1');
-Route::post('/users/create','UsersController@create')->name('create');
+Route::post('/users/create','UsersController@create');
 Route::get('/users/getusers','UsersController@getusers');
 Route::get('users/edit/{id}', ['as' => 'users.edit','uses' => 'UsersController@edit']);
 Route::post('users/update/{id}', ['as' => 'users.update','uses' => 'UsersController@update']);
