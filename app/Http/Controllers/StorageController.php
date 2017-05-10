@@ -20,7 +20,6 @@ class StorageController extends Controller
 	    $this->middleware('auth');
 	}
 
-
 	public function new1(){
 		return view("storage.new");
 	}
@@ -29,8 +28,7 @@ class StorageController extends Controller
 		return view("storage.index");
 	}
 
-	protected function validator(array $data)
-	{
+	protected function validator(array $data){
 	    return Validator::make($data, [
 	        'name' => 'required|max:255',
 	        'lastname' => 'required|max:255',
@@ -40,25 +38,19 @@ class StorageController extends Controller
 	}
 
 	public function create(Request $request){
-
-
 		$key_s 			= isset($_POST['key_s'])?$_POST['key_s']:false;
 		$description 		= isset($_POST['description'])?$_POST['description']:false;
 		$n 		= isset($_POST['n'])?$_POST['n']:false;
 		$n_limit 			= isset($_POST['n_limit'])?$_POST['n_limit']:false;
 		$price 		= isset($_POST['price'])?$_POST['price']:false;
-
-		
-
-    if ($key_s && $description && $n && $n_limit && $price) {
+	    if ($key_s && $description && $n && $n_limit && $price) {
 			$s = new Storage;
 			$s->key_s 	= $key_s;
 			$s->description = $description;
 			$s->n = $n;
 			$s->n_limit    = $n_limit;
      		$s->price    = $price;
-
-      if ($s->save()) {
+	      	if ($s->save()) {
 				flash()->overlay('producto creado correctamente.', '¡Exito!');
 			}else{
 				flash('No se pudo guardar el nuevo registro.', 'danger');
@@ -112,40 +104,39 @@ class StorageController extends Controller
 		if ($id) {
 			$s = Storage::find($id);
 			if ($s) {
-        $key_s 			= isset($_POST['key_s'])?$_POST['key_s']:false;
+        	$key_s 				= isset($_POST['key_s'])?$_POST['key_s']:false;
     		$description 		= isset($_POST['description'])?$_POST['description']:false;
-    		$n 		= isset($_POST['n'])?$_POST['n']:false;
+    		$n 					= isset($_POST['n'])?$_POST['n']:false;
     		$n_limit 			= isset($_POST['n_limit'])?$_POST['n_limit']:false;
-    		$price 		= isset($_POST['price'])?$_POST['price']:false;
-
-
-				if ($key_s && $description && $n && $n_limit && $price) {
-          $s->key_s 	= $key_s;
+    		$price 				= isset($_POST['price'])?$_POST['price']:false;
+			if ($key_s && $description && $n && $n_limit && $price) {
+          		$s->key_s 		= $key_s;
     			$s->description = $description;
-    			$s->n = $n;
-    			$s->n_limit    = $n_limit;
-          $s->price    = $price;
-
-
-					if ($s->save()) {
-						flash()->overlay('producto actualizado correctamente.', '¡Exito!');
-						return redirect("/storage");
-					}else{
-						flash('No se pudo guardar el nuevo registro.', 'danger');
-						return redirect("/storage");
-					}
+    			$s->n 			= $n;
+    			$s->n_limit    	= $n_limit;
+          		$s->price    	= $price;
+          		if ($s->limit < $s->n) {
+          			$s->isCritic = false;
+          		}
+				if ($s->save()) {
+					flash()->overlay('producto actualizado correctamente.', '¡Exito!');
+					return redirect("/storage");
 				}else{
-					flash('Hacen falta parámetros requeridos para crear al nuevo producto.', 'danger');
+					flash('No se pudo guardar el nuevo registro.', 'danger');
 					return redirect("/storage");
 				}
 			}else{
-				flash('No se encontró el registro del producto que se quiere actualizar.', 'danger');
+				flash('Hacen falta parámetros requeridos para crear al nuevo producto.', 'danger');
 				return redirect("/storage");
 			}
 		}else{
 			flash('No se encontró el registro del producto que se quiere actualizar.', 'danger');
 			return redirect("/storage");
 		}
+	}else{
+		flash('No se encontró el registro del producto que se quiere actualizar.', 'danger');
+		return redirect("/storage");
+	}
 	}
 
 	public function delete($id){
@@ -167,5 +158,38 @@ class StorageController extends Controller
 			flash('No se encontró el registro del producto que se quiere eliminar.', 'danger');
 			return redirect("/storage");
 		}
+	}
+
+	public function productVisor(){
+		$answer = [
+			'success' => false,
+			'callbackScript' => 'showToast("Error","Error al consultar las existencias de los productos","error",false)',
+			'criticProducts' => []
+		];
+		$products = Storage::orderBy('id', 'asc')->get();
+	    $criticProducts = [];
+	    foreach ($products as $product) {
+   			$limit 		= $product->n_limit;
+   			$existences = $product->n;
+   			if ($existences <= $limit) {
+   				$product->isCritic = 1;
+   				if (!$product->save()) {
+   					echo json_encode($answer);				
+   				}
+   			}
+	    }
+		$products = Storage::where('isCritic', true)
+						->orderBy('id', 'asc')
+	           			->get();
+	    foreach ($products as $product) {
+			$aux = [
+				'name' => $product->description,
+				'number' => $product->n
+			];
+			$criticProducts[] = $aux;
+	    }
+	    $answer['criticProducts'] = $criticProducts;
+	    $answer['success'] = true;
+	    echo json_encode($answer);
 	}
 }

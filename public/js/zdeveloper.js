@@ -7,6 +7,13 @@ window.onload = function(){
 	applyDevicesDragable();
 	startRentListener();
 	activateCountdown();
+	displayNotifications();
+
+	setInterval(function() {
+		$.toast().reset('all');
+		displayNotifications();	    
+	}, 60000);
+
 
 	$(document.body).on('click','button.add',function(e){
 		e.preventDefault();
@@ -134,13 +141,32 @@ window.onload = function(){
 			console.log("no mainContainer found");
 		}
 	});
+
+	$('input.float').keypress(function(event) {
+	  if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+	    event.preventDefault();
+	  }
+	});
 }
 
-$('input.float').keypress(function(event) {
-  if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
-    event.preventDefault();
-  }
-});
+
+function displayNotifications(){
+	$.get('/storage/productvisor',function(r){
+		if (r.success) {
+			console.log(r);
+			$.each(r.criticProducts,function(index,product){
+				console.log(product);
+				var title 	= 	"Estado Crítico";
+				var msg 	= 	"Solo existen <b>"+product.number+"</b> existencias en inventario del producto: <b>"+product.name+"</b>";
+				var icon 	= 	"warning";
+				var sticky	=	true;
+				showToast(title,msg,icon,sticky);
+			});
+		}else{
+			eval(r.callbackScript);
+		}
+	},'json');
+}
 
 function closenow(rent){
 	$.ajax({
@@ -308,7 +334,8 @@ function destroyEmodal(){
 
 function applyDevicesDragable(){
 	var container = document.getElementById("multi-drag");
-	if (typeof container !== 'undefined') {
+	console.log(container);
+	if (typeof container !== 'undefined' && container !== null) {
 		var sort = Sortable.create(container, {
 		  animation: 150, // ms, animation speed moving items when sorting, `0` — without animation
 		  ghostClass: "ghost",

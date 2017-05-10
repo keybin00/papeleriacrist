@@ -9,15 +9,16 @@ use Illuminate\Support\Facades\Validator;
 
 class SellsController extends Controller
 {
-/*	flash('Message', 'info')
+/*
+  flash('Message', 'info')
 	flash('Message', 'success')
 	flash('Message', 'danger')
 	flash('Message', 'warning')
 	flash()->overlay('Modal Message', 'Modal Title')
-	flash('Message')->important()*/
+	flash('Message')->important()
+*/
 
-	public function __construct()
-	{
+	public function __construct(){
 	    $this->middleware('auth');
 	}
 
@@ -31,8 +32,6 @@ class SellsController extends Controller
 
   public function searcher(){
     $answer=['valid'=>true,'error'=>"",'k'=>"",'p'=>0,'n'=>0,'s'=>0,"d"=>""];
-
-
     $k 		= isset($_POST['key'])?$_POST['key']:false;
     $n 		= isset($_POST['num'])?$_POST['num']:false;
     $product = Storage::where('key_s', $k)->first();
@@ -51,8 +50,7 @@ class SellsController extends Controller
       $answer['valid']=false;
       $answer['error']="Producto no encontrado";
     }
-    echo json_encode($answer);
-
+      echo json_encode($answer);
 	}
 
   public function sellRegister(){
@@ -69,26 +67,18 @@ class SellsController extends Controller
         $v->cantidad=$p["n"];
         $v->subtotal=$p["s"];
         $v->save();
-
-
         //Actualizar inventario
         $s = Storage::where('key_s', $p["k"])->first();
         $s->n= $s->n - $p["n"];
         $s->save();
       }
-
-
-
       $answer['valid']=true;
       $answer['error']="";
     }else{
       $answer['valid']=false;
       $answer['error']="datos no recibidos";
     }
-
     echo json_encode($answer);
-
-
   }
 
   public function getRecipe(){
