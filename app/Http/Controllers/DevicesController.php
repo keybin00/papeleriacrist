@@ -39,9 +39,11 @@ class DevicesController extends Controller
         }
         return view('devices.index', ['devices' => $devices,'rents'=>$rents,'currTime'=>$currentDateTime]);
     }
+
     public function devices(){
         return view('devices.devices');
     }
+
     public function getdevices(){
         $answer = [
             'data'=>[]
@@ -62,19 +64,25 @@ class DevicesController extends Controller
         }
         echo json_encode($answer);
     }
+
     public function _new(){
         return view('devices.new');
     }
+
     public function create(){
         $name       = isset($_POST['name'])?$_POST['name']:false;
         $category   = isset($_POST['category'])?$_POST['category']:false;
-        if ($name && $category) {
+        $minimum    = isset($_POST['minimum'])?$_POST['minimum']:false;
+        $rate       = isset($_POST['rate'])?$_POST['rate']:false;
+        if ($name && $category && $minimum && $rate) {
             $device = new Device;
             $device->name           = $name;
             $device->category       = $category;
             $device->is_complete    = true;
             $device->rented         = false;
             $device->status         = 'active';
+            $device->rate           = $rate;
+            $device->minimum        = $minimum;
             if ($device->save()) {
                 flash()->overlay('Dispositivo creado correctamente.', '¡Exito!');
             }else{
@@ -85,6 +93,7 @@ class DevicesController extends Controller
         }
         return redirect("/devices/list");
     }
+
     public function newRent($id){
         if ($id) {
             $device = Device::find($id);
@@ -99,27 +108,73 @@ class DevicesController extends Controller
             return redirect("/devices");
         }
     }
+    
     public function rent($id){
         if ($id) {
-            echo var_dump($_POST);
             $device = Device::find($id);
             if ($device) {
-                $device->rented = true;
-                if ($device->save()) {
-                    flash('El dispositivo se ha rentado correctamente.', 'success');
-                    return redirect("/devices");  
+                if ($device->working) {
+                    $device->rented = true;    
+                    if ($device->save()) {
+                        flash('El dispositivo se ha rentado correctamente.', 'success');
+                    }else{
+                        flash('No se encontró el dispositivo que se quiere rentar.', 'danger');
+                    }
                 }else{
-                    flash('No se encontró el dispositivo que se quiere rentar.', 'danger');
-                    return redirect("/devices");  
+                    flash('El dispositivo se encuentra inactivo, actívelo primero para poder rentarlo.', 'danger');
                 }
             }else{
-                flash('No se encontró el dispositivo que se quiere rentar.', 'danger');
-                return redirect("/devices");  
+                flash('No se encontró el dispositivo que se quiere rentar.', 'danger');                
             }
         }else{
             flash('No se encontró el dispositivo que se quiere rentar.', 'danger');
-            return redirect("/devices");
         }   
+        return redirect("/devices");  
     }
 
+    public function turnoff($id){
+        if ($id) {
+            $device = Device::find($id);
+            if ($device) {
+                if ($device->rented) {
+                    flash('El dispositivo se encuentra rentado actualmente, finalice la renta y entonces podrá desactivarlo.', 'danger');        
+                }else{
+                    $device->working = 0;
+                    if ($device->save()) {
+                        flash('El dispositivo se ha desactivado correctamente.', 'success');
+                    }else{
+                        flash('Hubo un error al tratar de desactivar el dispositivo.', 'danger');          
+                    }
+                }
+            }else{
+                flash('No existe el dispositivo que se quiere desactivar.', 'danger');    
+            }
+        }else{
+            flash('No se encontró el dispositivo que se quiere desactivar.', 'danger');
+        }
+        return redirect("/devices");
+    }
+
+    public function turnon($id){
+        if ($id) {
+            $device = Device::find($id);
+            if ($device) {
+                if ($device->working) {
+                    flash('El dispositivo ya se encuentra activo.', 'success');
+                }else{
+                    $device->working = 1;
+                    if ($device->save()) {
+                        flash('El dispositivo se ha activado correctamente.', 'success');
+                    }else{
+                        flash('Ha ocurrido un error al tratar de activar el dispositivo.', 'danger');            
+                    }
+                }
+            }else{
+                flash('No existe el dispositivo que se quiere activar.', 'danger');    
+            }
+        }else{
+            flash('No se encontró el dispositivo que se quiere activar.', 'danger');   
+        }
+        return redirect("/devices");
+    }
 }
