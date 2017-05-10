@@ -1,10 +1,12 @@
 CREATE TABLE devices (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(255),
-	is_complete INT(1),
 	category VARCHAR(255),
+	is_complete INT(1),
 	status ENUM('active','deleted','inuse'),
 	rented INT(1),
+	rate FLOAT(7,2),
+	minimum INT(10) default 15,
 	created_at TIMESTAMP,
 	updated_at DATETIME
 );

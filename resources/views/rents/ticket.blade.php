@@ -69,7 +69,7 @@
           <td colspan="2">
             <div class="center-justified">
               <strong>Recibo Para:</strong> Cliente
-              <strong>Total:</strong> $0.00
+              <strong>Total:</strong> <?php setlocale(LC_MONETARY, 'en_US'); echo '$'.money_format('%(#10n', $totalCharge).' M.N.' ?>
             </div>
           </td>
         </tr>
@@ -89,22 +89,17 @@
         <tr class="border-right">
           <td class="pad-left">Renta de Equipo por: <?=$timetotal?></td>
           <td class="center">Impuesto (16%)</td>
-          <td class="right-center">$0.00</td>
+          <td class="right-center"><?php setlocale(LC_MONETARY, 'en_US'); echo '$'.money_format('%(#10n', $totalCharge*0.16).' M.N.' ?></td>
         </tr>
         <tr class="border-right">
           <td class="pad-left">&nbsp;</td>
           <td class="right border-top">Subtotal</td>
-          <td class="right border-top">$0.00</td>
-        </tr>
-        <tr class="border-right">
-          <td class="pad-left">&nbsp;</td>
-          <td class="right border-top">Imp.</td>
-          <td class="right border-top">$0.00</td>
+          <td class="right border-top"><?php setlocale(LC_MONETARY, 'en_US'); echo '$'.money_format('%(#10n', $totalCharge).' M.N.' ?></td>
         </tr>
         <tr class="border-right">
           <td class="pad-left">&nbsp;</td>
           <td class="right border-top">Total</td>
-          <td class="right border-top">$0.00</td>
+          <td class="right border-top"><?php setlocale(LC_MONETARY, 'en_US'); echo '$'.money_format('%(#10n', ($totalCharge + ($totalCharge * 0.16))).' M.N.' ?></td>
         </tr>
       </tbody>
     </table>

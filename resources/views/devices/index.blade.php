@@ -38,9 +38,17 @@ li#devicesList{display: inline-block;}
           </div>
       @endif
         <div class="row" id="multi-drag">
-          @foreach ($devices as $device)
-            @include('devices.device')
-          @endforeach
+          @if(count($devices) > 0)
+            @foreach ($devices as $device)
+              @include('devices.device')
+            @endforeach
+          @else
+            <div class="callout callout-info">
+              <h4>Aún no hay dispositivos.</h4>
+              <p>No se encontraron dispositivos dados de alta. PUedes dar de alta nuevos dispositivos en la seccion dispositivos.</p>
+            </div>
+          @endif
+
           <!-- ./col -->
           </div>
       </div>

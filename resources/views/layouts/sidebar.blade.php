@@ -30,24 +30,10 @@
             </span>
           </a>
           <ul class="treeview-menu" style="display: none;">
-            <li><a href="/devices"><i class="fa fa-folder"></i> <span>Activos</span></a></li>
-            <li><a href="/devices/list"><i class="fa fa-folder"></i> <span>Dispositivos</span></a></li>
+            <li><a href="/devices"><i class="fa fa-gamepad"></i> <span>Activos</span></a></li>
+            <li><a href="/devices/list"><i class="fa fa-server"></i> <span>Listado</span></a></li>
           </ul>
         </li>
-
-        <!--   <li class="treeview">
-          <a href="#">
-            <i class="fa fa-database"></i> <span>Almacen</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-down pull-right"></i>
-            </span>
-          </a>
-       <ul class="treeview-menu" style="display: none;">
-              <li><a href=""><i class="fa fa-folder"></i> <span>Provedores</span></a></li>
-            <li><a href=""><i class="fa fa-folder"></i> <span>Categorias</span></a></li>
-            <li><a href="/storage/"><i class="fa fa-folder"></i> <span>Productos</span></a></li>
-          </ul>
-        </li>-->
         <li><a href="/storage/"><i class="fa fa-folder"></i> <span>Productos</span></a></li>
     </ul>
   </section>

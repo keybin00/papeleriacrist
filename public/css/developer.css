@@ -105,3 +105,8 @@ input[type="text"].custom-number{
 button.custom-number{
   height: 100px!important;
 }
+
+.not-active {
+   pointer-events: none;
+   cursor: default;
+}

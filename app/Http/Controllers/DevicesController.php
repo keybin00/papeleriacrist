@@ -72,7 +72,7 @@ class DevicesController extends Controller
     public function create(){
         $name       = isset($_POST['name'])?$_POST['name']:false;
         $category   = isset($_POST['category'])?$_POST['category']:false;
-        $minimum    = isset($_POST['minimum'])?$_POST['minimum']:false;
+        $minimum    = isset($_POST['min'])?$_POST['min']:false;
         $rate       = isset($_POST['rate'])?$_POST['rate']:false;
         if ($name && $category && $minimum && $rate) {
             $device = new Device;
@@ -82,7 +82,7 @@ class DevicesController extends Controller
             $device->rented         = false;
             $device->status         = 'active';
             $device->rate           = $rate;
-            $device->minimum        = $minimum;
+            $device->minimum        = (int)$minimum > 0 ? $minimum : 15;
             if ($device->save()) {
                 flash()->overlay('Dispositivo creado correctamente.', '¡Exito!');
             }else{
@@ -90,6 +90,69 @@ class DevicesController extends Controller
             }
         }else{
             flash('Hacen falta parámetros requeridos para crear el nuevo Dispositivo.', 'danger');
+        }
+        return redirect("/devices/list");
+    }
+
+    public function edit($id){
+        if ($id) {
+            $device = Device::find($id);
+            if ($device) {
+                return view('devices.edit',['device'=>$device]);
+            }else{
+                flash('No existe el dispositivo de se desea editar.', 'danger');    
+            }
+        }else{
+            flash('Faltan parámetros para realizar la búsqueda.', 'danger');
+        }
+        return redirect("/devices/list");
+    }
+
+    public function update($id){
+        if ($id) {
+            $device = Device::find($id);
+            if ($device) {
+                $name       = isset($_POST['name'])?$_POST['name']:false;
+                $category   = isset($_POST['category'])?$_POST['category']:false;
+                $minimum    = isset($_POST['min'])?$_POST['min']:false;
+                $rate       = isset($_POST['rate'])?$_POST['rate']:false;
+                if ($name && $category && $minimum && $rate) {
+                    $device->name           = $name;
+                    $device->category       = $category;
+                    $device->rate           = $rate;
+                    $device->minimum        = (int)$minimum > 0 ? $minimum : 15;
+                    if ($device->save()) {
+                        flash()->overlay('Dispositivo actualizado correctamente.', '¡Exito!');
+                    }else{
+                        flash('No se pudo actualizar el nuevo registro.', 'danger');
+                    }
+                }else{
+                    flash('Hacen falta parámetros requeridos para crear el nuevo Dispositivo.', 'danger');
+                }
+            }else{
+                flash('No existe el dispositivo de se desea editar.', 'danger');    
+            }
+        }else{
+            flash('Faltan parámetros para realizar la búsqueda.', 'danger');
+        }
+        return redirect("/devices/list");
+    }
+
+    public function delete($id){
+        if ($id) {
+            $device = Device::find($id);
+            if ($device) {
+                $device->status = 'deleted';
+                if ($device->save()) {
+                    flash('Dispositivo eliminado correctamente', 'success');        
+                }else{
+                    flash('Hubo un error al tratar de eliminar el dispositivo', 'danger');    
+                }
+            }else{
+                flash('No existe el dispositivo de se desea editar.', 'danger');    
+            }
+        }else{
+            flash('Faltan parámetros para realizar la búsqueda.', 'danger');
         }
         return redirect("/devices/list");
     }
