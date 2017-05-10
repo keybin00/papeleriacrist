@@ -23,10 +23,9 @@
         					<table data-url="/sells/get" class="display ajaxTable table table-condensed table-hover table-bordered table-stripped" cellspacing="0" cellpadding="0" width="100%">
         				        <thead>
         				            <tr>
-        				                <th>ID</th>
-        				                <th>Clave</th>
-        				                <th>Cantidad</th>
+        				                <th>Venta</th>
         				                <th>Total</th>
+                                        <th>Opciones</th>
         				            </tr>
         				        </thead>
         				    </table>

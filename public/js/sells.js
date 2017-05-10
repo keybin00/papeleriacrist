@@ -83,6 +83,8 @@ $("#total").val(0);
 
 function registerSell() {
   if(products.length>0){
+    console.log(products);
+    console.log(total);
     $.post( window.location.pathname+"/newsell", { list: products,total: total, _token:token })
     .done(function( data ) {
       //alert( "Data Loaded: " + data );
@@ -96,18 +98,17 @@ function registerSell() {
 
 
 function sellJsonHandler(data){
+  console.log(data);
   data=JSON.parse(data);
   if (data.valid != true) {
     alert("Error: "+data.error);
   }else{
-    sellFinisher();
+    sellFinisher(data.saleID);
   }
 }
 
 
-function sellFinisher(){
-  l={list: products,total: total, _token:token };
-  l=JSON.stringify(l);
-  var win=window.open(window.location.pathname+"/recipe/?total="+total+"&list="+l,"","width=400,height=700");
+function sellFinisher(sale){
+  var win=window.open("/sells/recipe/?id="+sale,"width=400,height=700");
   location.reload();
 }

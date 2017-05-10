@@ -70,7 +70,8 @@ Route::get('/sells','SellsController@index');
 Route::get('/sells/seller','SellsController@seller');
 Route::post('/sells/seller/searcher','SellsController@searcher');
 Route::post('/sells/seller/newsell','SellsController@sellRegister');
-Route::get('/sells/seller/recipe','SellsController@getRecipe');
+Route::get('/sells/recipe','SellsController@getRecipe');
+Route::get('/sells/downloadrecipe/{id}','SellsController@downloadRecipe');
 Route::get('/sells/get','SellsController@gettable');
 
 

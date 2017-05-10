@@ -5,9 +5,10 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Sell extends Authenticatable
+class Salesproducts extends Authenticatable
 {
     use Notifiable;
+
 
     /**
      * The attributes that should be hidden for arrays.
@@ -17,4 +18,5 @@ class Sell extends Authenticatable
     protected $hidden = [
 
     ];
+
 }

@@ -16,6 +16,12 @@
         <div class="row">
             <div class="container">
                 <div class="row">
+                @if (session()->has('flash_notification.message'))
+                    <div class="alert alert-{{ session('flash_notification.level') }}">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        {!! session('flash_notification.message') !!}
+                    </div>
+                @endif
                     <!-- Default box -->
                     <div class="box">
                       <div class="box-header with-border">
@@ -25,13 +31,15 @@
                         <div class="col-md-12 col-md-offset-1">
                                 <div class="form-group">
                                     <div class="col-md-2">
+                                        <label>Cve. del Producto</label>
                                         <input id="clave_producto" type="text" placeholder="Clave de Producto" class="form-control" required autofocus>
                                     </div>
                                     <div class="col-md-2">
+                                      <label>Cantidad</label>
                                       <input id="cantidad" type="number" placeholder="Cantidad" class="form-control" value="0" required autofocus>
                                     </div>
                                     <div class="col-md-2">
-                                      <input id="button" type="submit" class="form-control" value="Agregar" onclick="getNewProduct()" autofocus>
+                                      <input id="button" type="submit" class="btn btn-danger btn-md" value="Agregar" onclick="getNewProduct()" autofocus>
                                     </div>
                                 </div>
                         </div>
@@ -47,13 +55,7 @@
                 				            </tr>
                 				        </thead>
                                 <tbody>
-
-
                                 </tbody>
-
-
-
-
                 				    </table>
                         </div>
 
@@ -62,14 +64,12 @@
                             <div class="col-md-2">
                             <label for="total" class="control-label">Total:</label>
                             <input id="total" name="total" type="text" class="col-md-12 form-control" value="0" readonly="" autofocus>
-                            <button type="submit" class="btn btn-primary btn-lg" onclick="registerSell()">
+                            <button type="submit" class="btn btn-primary btn-lg" onclick="registerSell()" style="margin-top:10px;">
                               <i class="fa fa-plus-circle"></i> Realizar venta
                             </button>
                           </div>
                           </div>
                         </div>
-
-
                       </div>
                       <!-- /.box-body -->
                       <!-- /.box-footer-->

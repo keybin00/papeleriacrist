@@ -141,7 +141,7 @@ class RentsController extends Controller
                         $device->rented = false;
                         if ($device->save()) {
                             $answer['success'] = true;
-                            $aLink = "<a href='/rents/test'><i class='fa fa-file-pdf-o'></i> Ver Recibo</a>";
+                            $aLink = "<a target='_blank' href='/rents/ticket/".$rent->id."'><i class='fa fa-file-pdf-o'></i> Ver Recibo</a>";
                             $answer['callbackScript'] = 'showToast("¡Exito! <b>'.$device->name.'</b>","Renta Concluida Correctamente. <br>'.$aLink.'","success",true)';
                             echo json_encode($answer);
                         }

@@ -18,7 +18,7 @@
           </a>
           <ul class="treeview-menu" style="display: none;">
             <li><a href="/sells/seller"><i class="fa fa-dollar"></i> <span>Nueva Venta</span></a></li>
-            <li><a href="/sells/"><i class="fa fa-folder"></i> <span>Análisis ventas</span></a></li>
+            <li><a href="/sells/"><i class="fa fa-line-chart"></i> <span>Análisis ventas</span></a></li>
           </ul>
         </li>
         <li><a href="/rents"><i class="fa fa-tachometer"></i> <span>Rentas</span></a></li>
